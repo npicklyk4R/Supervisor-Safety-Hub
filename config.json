@@ -1,0 +1,74 @@
+[
+  {
+    "title": "Hazard Reporting Tool",
+    "typeOfForm": "Reporting Tools",
+    "frequency": "As Required",
+    "link": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=VRKGC-SoMEqWdruFG-hVv6E8FIXyFqlGrlT-pFXzvo1UQkdJTVYxVkM5NEVQOFFJN0dNS0c5UkU2NiQlQCN0PWcu"
+  },
+  {
+    "title": "Incident Notification",
+    "typeOfForm": "Reporting Tools",
+    "frequency": "As Required",
+    "link": "https://forms.office.com/Pages/ResponsePage.aspx?id=VRKGC-SoMEqWdruFG-hVv6E8FIXyFqlGrlT-pFXzvo1UU1CMThNNTRFMEpMWEg2WE1IRkwxQlVaUiQlQCN0PWcu"
+  },
+  {
+    "title": "Frontline Leadership Walkthrough (Per supervisor)",
+    "typeOfForm": "Reporting Tools",
+    "frequency": "1 per month",
+    "link": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=VRKGC-SoMEqWdruFG-hVv6E8FIXyFqlGrlT-pFXzvo1UMjhNN0ZFNk84Tlo3MjJSQTIwRjhSVE9aVyQlQCN0PWcu"
+  },
+  {
+    "title": "CRP Road Test (Pre-Hire)",
+    "typeOfForm": "CRP Hiring & Performance",
+    "frequency": "As Required",
+    "link": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=VRKGC-SoMEqWdruFG-hVv6E8FIXyFqlGrlT-pFXzvo1UMTFKVldORVhBVzZMOFNIRzFZUFdVUDlaQiQlQCN0PWcu"
+  },
+  {
+    "title": "CRP Final Sign Off (Supervisor or Manager)",
+    "typeOfForm": "CRP Hiring & Performance",
+    "frequency": "As Required",
+    "link": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=VRKGC-SoMEqWdruFG-hVv6E8FIXyFqlGrlT-pFXzvo1URE5GMUlKU1hJRU5DVUQxV0pJS0hPN1hCUyQlQCN0PWcu"
+  },
+  {
+    "title": "CRP Ride Along Observation",
+    "typeOfForm": "CRP Hiring & Performance",
+    "frequency": "1 per year (per CRP); As Required",
+    "link": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=VRKGC-SoMEqWdruFG-hVv6E8FIXyFqlGrlT-pFXzvo1UOEZHRUpENzNMS0tBMEpGS1ZIMUY1N1o5SyQlQCN0PWcu"
+  },
+  {
+    "title": "ToolBox Talk Submission",
+    "typeOfForm": "Submissions & Inspections",
+    "frequency": "1 per week",
+    "link": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=VRKGC-SoMEqWdruFG-hVv6E8FIXyFqlGrlT-pFXzvo1UNzFFODBYMUtUVkFaWUhHSkVJNDlXVEIwVyQlQCN0PWcu"
+  },
+  {
+    "title": "BTU Facility Inspection",
+    "typeOfForm": "Submissions & Inspections",
+    "frequency": "1 per month",
+    "link": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=VRKGC-SoMEqWdruFG-hVv6E8FIXyFqlGrlT-pFXzvo1UNThFTElUQUZSVTU0STE3TE5YV0ZMQTdSUyQlQCN0PWcu"
+  },
+  {
+    "title": "BTU Truck Audit (per truck)",
+    "typeOfForm": "Submissions & Inspections",
+    "frequency": "Quarterly",
+    "link": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=VRKGC-SoMEqWdruFG-hVv6E8FIXyFqlGrlT-pFXzvo1UNlFUMFlVVElJUkVaUjI1R0Y1RTlJQzlTSSQlQCN0PWcu"
+  },
+  {
+    "title": "Yard Fuel Storage Tank Inspection (each tank)",
+    "typeOfForm": "Submissions & Inspections",
+    "frequency": "1 per month",
+    "link": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=VRKGC-SoMEqWdruFG-hVv6E8FIXyFqlGrlT-pFXzvo1UOVVMVVBRUkJSVzlMUjhRV0tSTldZRFVOSyQlQCN0PWcu"
+  },
+  {
+    "title": "Rental Tank Inspection",
+    "typeOfForm": "Submissions & Inspections",
+    "frequency": "As Required",
+    "link": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=VRKGC-SoMEqWdruFG-hVv6E8FIXyFqlGrlT-pFXzvo1UNktHVDAyU1BFRUlaQUg5NDdBNkQ2RVY1QyQlQCN0PWcu"
+  },
+  {
+    "title": "Wheel/Tire Safety Spot Check (Per supervisor)",
+    "typeOfForm": "Submissions & Inspections",
+    "frequency": "1 per week",
+    "link": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=VRKGC-SoMEqWdruFG-hVv6E8FIXyFqlGrlT-pFXzvo1UNzdTS0o3SllLTlFVWkxVSVVXVFA1VjE0NiQlQCN0PWcu"
+  }
+]

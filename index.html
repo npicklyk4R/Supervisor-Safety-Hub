@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BTU Supervisor Safety Hub</title>
+<meta name="description" content="4Refuel BTU Supervisor Safety Hub — one-tap access to EHS forms for supervisors.">
+
+<!-- Theme colors: light uses white, dark uses charcoal. Updated dynamically by app.js too. -->
+<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#141221" media="(prefers-color-scheme: dark)">
+
+<!-- PWA manifest -->
+<link rel="manifest" href="manifest.json">
+
+<!-- iOS PWA support -->
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="BTU Safety Hub">
+
+<link rel="icon" href="icons/icon-192.png" type="image/png">
+
+<!--
+  FONTS
+  Brand spec calls for Poppins (headings) and Gilmer (body).
+  Gilmer is a licensed commercial font not available on Google Fonts, so it is NOT
+  loaded from a public CDN here (that would silently fail / cause a flash of
+  missing font). Instead:
+    1. Poppins is loaded from Google Fonts (open license, safe to hotlink).
+    2. Gilmer is referenced by name in styles.css. If your organization has
+       licensed Gilmer webfont files, drop them into /fonts and uncomment the
+       @font-face block at the top of styles.css. Until then, the CSS fallback
+       stack (Inter, Segoe UI, Arial) is used automatically — the app still
+       looks correct, it just won't be pixel-identical to Gilmer.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- Skip link for keyboard / screen reader users -->
+<a class="skip-link" href="#main-content">Skip to content</a>
+
+<div class="app-shell">
+
+  <!-- ============================= HEADER ============================= -->
+  <header class="app-header" role="banner">
+    <div class="header-inner">
+      <div class="header-brand">
+        <div class="brand-mark" aria-hidden="true">
+          <span class="brand-mark-drop"></span>
+        </div>
+        <div class="brand-text">
+          <p class="brand-eyebrow">4Refuel · BTU</p>
+          <h1 class="brand-title">Supervisor Safety Hub</h1>
+          <p class="brand-tagline">Delivering reliable and sustainable solutions.</p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button id="theme-toggle" class="icon-btn" type="button" aria-pressed="false" aria-label="Switch to dark mode">
+          <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4.2"></circle>
+            <line x1="12" y1="1.5" x2="12" y2="4"></line>
+            <line x1="12" y1="20" x2="12" y2="22.5"></line>
+            <line x1="4.2" y1="4.2" x2="5.9" y2="5.9"></line>
+            <line x1="18.1" y1="18.1" x2="19.8" y2="19.8"></line>
+            <line x1="1.5" y1="12" x2="4" y2="12"></line>
+            <line x1="20" y1="12" x2="22.5" y2="12"></line>
+            <line x1="4.2" y1="19.8" x2="5.9" y2="18.1"></line>
+            <line x1="18.1" y1="5.9" x2="19.8" y2="4.2"></line>
+          </svg>
+          <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20.5 14.7A8.7 8.7 0 0 1 9.3 3.5a8.7 8.7 0 1 0 11.2 11.2Z"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Gradient hairline: signature brand element, repeated with intent (header, section rules, active states) -->
+    <div class="gradient-hairline" aria-hidden="true"></div>
+  </header>
+
+  <main id="main-content" class="app-main">
+
+    <!-- ============================= SEARCH ============================= -->
+    <section class="search-section" aria-label="Search forms">
+      <div class="search-field">
+        <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input
+          type="search"
+          id="search-input"
+          class="search-input"
+          placeholder="Search forms by title, type or frequency…"
+          aria-label="Search forms by title, type or frequency"
+          autocomplete="off"
+        >
+        <button id="search-clear" class="search-clear" type="button" aria-label="Clear search" hidden>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <p id="search-status" class="search-status" role="status" aria-live="polite"></p>
+    </section>
+
+    <!-- Live region announcing "Open Form" activity for screen reader users -->
+    <p id="a11y-announcer" class="visually-hidden" role="status" aria-live="polite"></p>
+
+    <!-- ============================= FAVORITES ============================= -->
+    <section id="favorites-section" class="content-section" aria-labelledby="favorites-heading" hidden>
+      <div class="section-heading">
+        <h2 id="favorites-heading">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l3.09 6.26 6.91 1-5 4.87 1.18 6.87L12 17.9l-6.18 3.6L7 14.63l-5-4.87 6.91-1L12 2.5z"/></svg>
+          Favorites
+        </h2>
+      </div>
+      <div id="favorites-grid" class="form-grid"></div>
+    </section>
+
+    <!-- ============================= RECENTLY OPENED ============================= -->
+    <section id="recent-section" class="content-section" aria-labelledby="recent-heading" hidden>
+      <div class="section-heading">
+        <h2 id="recent-heading">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><polyline points="12 7 12 12 15.5 14"></polyline></svg>
+          Recently Opened
+        </h2>
+        <button id="clear-recent" class="text-btn" type="button">Clear</button>
+      </div>
+      <div id="recent-grid" class="form-grid"></div>
+    </section>
+
+    <!-- ============================= CATEGORIES ============================= -->
+    <section class="content-section" aria-label="All form categories">
+      <div class="section-heading">
+        <h2>All Forms</h2>
+      </div>
+      <div id="categories-container"></div>
+    </section>
+
+    <!-- Empty search state -->
+    <div id="empty-state" class="empty-state" hidden>
+      <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="11" cy="11" r="7"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <p>No forms match your search.</p>
+      <button id="empty-reset" class="text-btn" type="button">Clear search</button>
+    </div>
+
+  </main>
+
+  <footer class="app-footer">
+    <div class="gradient-hairline" aria-hidden="true"></div>
+    <p>4Refuel · BTU Supervisor Safety Hub</p>
+  </footer>
+</div>
+
+<!-- Toast / loading feedback for Open Form -->
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+<!-- Card template, cloned by app.js for every form -->
+<template id="form-card-template">
+  <article class="form-card">
+    <div class="form-card-accent" aria-hidden="true"></div>
+    <div class="form-card-body">
+      <div class="form-card-top">
+        <h3 class="form-card-title"></h3>
+        <button class="fav-btn" type="button" aria-pressed="false">
+          <svg class="fav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 2.5l3.09 6.26 6.91 1-5 4.87 1.18 6.87L12 17.9l-6.18 3.6L7 14.63l-5-4.87 6.91-1L12 2.5z"/>
+          </svg>
+        </button>
+      </div>
+      <dl class="form-card-meta">
+        <div class="meta-row">
+          <dt>Type of Form</dt>
+          <dd class="meta-type"></dd>
+        </div>
+        <div class="meta-row">
+          <dt>Frequency</dt>
+          <dd class="meta-frequency"></dd>
+        </div>
+      </dl>
+      <button class="open-form-btn" type="button">
+        <span class="open-form-label">Open Form</span>
+        <svg class="open-form-spinner" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true">
+          <circle cx="12" cy="12" r="9" stroke-opacity="0.25"></circle>
+          <path d="M21 12a9 9 0 0 0-9-9"></path>
+        </svg>
+        <svg class="open-form-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M7 17L17 7"></path>
+          <path d="M9 7h8v8"></path>
+        </svg>
+      </button>
+    </div>
+  </article>
+</template>
+
+<!-- Category section template -->
+<template id="category-template">
+  <section class="category-section">
+    <button class="category-header" type="button" aria-expanded="true">
+      <span class="category-icon" aria-hidden="true"></span>
+      <span class="category-heading-text">
+        <span class="category-name"></span>
+        <span class="category-count"></span>
+      </span>
+      <svg class="category-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </button>
+    <div class="category-body">
+      <div class="category-grid form-grid"></div>
+    </div>
+  </section>
+</template>
+
+<script src="app.js"></script>
+</body>
+</html>

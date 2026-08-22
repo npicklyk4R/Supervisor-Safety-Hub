@@ -18,7 +18,7 @@ No backend, no database, no authentication, no APIs — the entire app is static
 | `config.json` | **The only file most admins will ever need to edit** — all form data |
 | `manifest.json` | PWA install metadata (name, icons, colors) |
 | `service-worker.js` | Offline caching |
-| `icons/` | App icons (192/512, regular + maskable) |
+| `icon-192.png`, `icon-512.png`, `icon-maskable-192.png`, `icon-maskable-512.png` | App icons (regular + maskable), stored in the repo root |
 
 ---
 
@@ -136,7 +136,7 @@ Change any hex value and every gradient, button, focus ring, and accent derives 
 
 ## 7. Updating logos / icons
 
-App icons live in `icons/`:
+App icons live in the repo root alongside the other app files:
 
 - `icon-192.png`, `icon-512.png` — standard icons
 - `icon-maskable-192.png`, `icon-maskable-512.png` — "maskable" icons (Android applies its own shape mask, e.g. a circle, so these need extra padding around the artwork; keep the logo within the center ~67% of the canvas)

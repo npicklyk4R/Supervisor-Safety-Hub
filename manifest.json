@@ -1,7 +1,7 @@
 {
-  "name": "BTU Supervisor Safety Hub",
-  "short_name": "BTU Safety Hub",
-  "description": "4Refuel BTU Supervisor Safety Hub — one-tap access to EHS forms for supervisors. Delivering reliable and sustainable solutions.",
+  "name": "Supervisor Safety Hub",
+  "short_name": "EHS Safety Hub",
+  "description": "4Refuel Supervisor Safety Hub — one-tap access to EHS forms for supervisors & managera. Delivering reliable and sustainable solutions.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

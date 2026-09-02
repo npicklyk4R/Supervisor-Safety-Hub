@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Site Editor · BTU Supervisor Safety Hub</title>
+<meta name="robots" content="noindex, nofollow">
+
+<!--
+  ADMIN.HTML — SITE EDITOR (GitHub-backed)
+  ---------------------------------------------------------------------
+  This page edits your live site directly. It reads and writes
+  config.json, branding.json, and logo.png straight to your GitHub repo
+  using GitHub's REST API, authenticated with a Personal Access Token
+  you provide. There is no separate server anywhere — your browser talks
+  to GitHub directly, and GitHub Pages republishes automatically within
+  about a minute of any commit, same as pushing from git normally.
+
+  Your token is stored ONLY in this browser (localStorage), sent ONLY to
+  api.github.com, and never seen by anyone else. Use a FINE-GRAINED token
+  scoped to just this one repository with "Contents: Read and write"
+  permission — see the Connect screen for exact steps.
+
+  Since this edits your live site, treat this page like any other admin
+  tool: don't link to it publicly, and sign out (Disconnect) on shared
+  computers.
+  ---------------------------------------------------------------------
+-->
+
+<link rel="icon" href="icon-192.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body class="admin-body">
+
+<!-- ============================= CONNECT SCREEN ============================= -->
+<div class="connect-screen" id="connect-screen">
+  <div class="connect-card">
+    <div class="connect-header">
+      <div class="admin-mini-mark" aria-hidden="true"></div>
+      <div>
+        <p class="admin-eyebrow">4Refuel · BTU</p>
+        <h1>Site Editor</h1>
+      </div>
+    </div>
+
+    <p class="connect-intro">
+      This page edits your live site directly by committing to your GitHub repo.
+      Connect once per browser with a Personal Access Token scoped to just this repository.
+    </p>
+
+    <label class="field">
+      <span class="field-label">Repository owner (your GitHub username or org)</span>
+      <input type="text" id="input-owner" placeholder="npicklyk4R" autocomplete="off">
+    </label>
+    <label class="field">
+      <span class="field-label">Repository name</span>
+      <input type="text" id="input-repo" placeholder="Supervisor-Safety-Hub" autocomplete="off">
+    </label>
+    <label class="field">
+      <span class="field-label">Branch</span>
+      <input type="text" id="input-branch" placeholder="main" autocomplete="off">
+    </label>
+    <label class="field">
+      <span class="field-label">Personal Access Token</span>
+      <input type="password" id="input-token" placeholder="github_pat_…" autocomplete="off">
+    </label>
+
+    <label class="remember-row">
+      <input type="checkbox" id="input-remember" checked>
+      <span>Remember on this browser (stores the token in localStorage until you Disconnect)</span>
+    </label>
+
+    <button class="primary-btn full-width" type="button" id="connect-btn">Connect to GitHub</button>
+    <p class="connect-status" id="connect-status" role="status" aria-live="polite"></p>
+
+    <details class="token-help">
+      <summary>How do I create a token?</summary>
+      <ol>
+        <li>Go to <strong>github.com → Settings → Developer settings → Personal access tokens → Fine-grained tokens</strong>, then <strong>Generate new token</strong>.</li>
+        <li>Under <strong>Repository access</strong>, choose <strong>Only select repositories</strong> and pick this repo — don't grant access to all repos.</li>
+        <li>Under <strong>Permissions → Repository permissions</strong>, set <strong>Contents</strong> to <strong>Read and write</strong>. Leave everything else as No access.</li>
+        <li>Set an expiration (90 days is a reasonable default — you'll just generate a new one when it lapses).</li>
+        <li>Generate the token and paste it above. GitHub only shows it once, so keep the tab open until you've connected.</li>
+      </ol>
+    </details>
+  </div>
+</div>
+
+<!-- ============================= EDITOR (shown after connect) ============================= -->
+<div class="admin-shell" id="admin-shell" hidden>
+
+  <header class="admin-header">
+    <div class="admin-header-inner">
+      <div class="admin-header-brand">
+        <div class="admin-mini-mark" aria-hidden="true"></div>
+        <div>
+          <p class="admin-eyebrow">4Refuel · BTU</p>
+          <h1>Site Editor</h1>
+        </div>
+      </div>
+      <div class="admin-header-actions">
+        <span id="repo-indicator" class="repo-indicator"></span>
+        <span id="save-indicator" class="save-indicator" role="status" aria-live="polite"></span>
+        <button id="disconnect-btn" class="ghost-btn" type="button">Disconnect</button>
+        <button id="publish-btn" class="primary-btn" type="button">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5"></path><path d="M5 12l7-7 7 7"></path></svg>
+          Publish to GitHub
+        </button>
+      </div>
+    </div>
+    <div class="gradient-hairline" aria-hidden="true"></div>
+  </header>
+
+  <div class="admin-layout">
+
+    <!-- ============================= EDITOR PANEL ============================= -->
+    <div class="editor-panel">
+
+      <nav class="admin-tabs" role="tablist" aria-label="Editor sections">
+        <button class="admin-tab is-active" type="button" role="tab" aria-selected="true" data-tab="branding">Branding &amp; Logo</button>
+        <button class="admin-tab" type="button" role="tab" aria-selected="false" data-tab="forms">Forms &amp; Categories</button>
+        <button class="admin-tab" type="button" role="tab" aria-selected="false" data-tab="publish">Publish</button>
+      </nav>
+
+      <!-- ---------------- BRANDING TAB ---------------- -->
+      <section class="admin-panel" id="tab-branding" role="tabpanel">
+
+        <div class="field-group">
+          <h2>App text</h2>
+          <label class="field">
+            <span class="field-label">App title</span>
+            <input type="text" id="input-appTitle" maxlength="60">
+          </label>
+          <label class="field">
+            <span class="field-label">Eyebrow (small label above title)</span>
+            <input type="text" id="input-eyebrow" maxlength="40">
+          </label>
+          <label class="field">
+            <span class="field-label">Tagline</span>
+            <input type="text" id="input-tagline" maxlength="90">
+          </label>
+        </div>
+
+        <div class="field-group">
+          <h2>Logo</h2>
+          <p class="field-help">Upload a square-ish logo (PNG, JPG, or SVG). On publish, it's resized and committed as <code>logo.png</code> (512×512, transparent background) — replacing the file the header reads directly, so no other code needs to change.</p>
+          <div class="logo-uploader">
+            <div class="logo-preview" id="logo-preview" aria-hidden="true">
+              <img src="logo.png" alt="" id="logo-preview-img">
+            </div>
+            <div class="logo-uploader-actions">
+              <label class="file-btn">
+                Upload new logo
+                <input type="file" id="logo-file-input" accept="image/png,image/jpeg,image/svg+xml,image/webp" hidden>
+              </label>
+              <span class="field-help" id="logo-status" style="margin:0;"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <h2>Brand colors</h2>
+          <p class="field-help">These drive every gradient, button, and accent throughout the app. Category accents (Reporting Tools, CRP Hiring &amp; Performance, Submissions &amp; Inspections) are derived automatically from Yellow→Green→Blue→Purple.</p>
+          <div class="color-grid">
+            <label class="color-field">
+              <span class="field-label">Purple</span>
+              <span class="color-input-wrap"><input type="color" id="color-purple"><input type="text" id="color-purple-hex" class="hex-input" maxlength="7"></span>
+            </label>
+            <label class="color-field">
+              <span class="field-label">Blue</span>
+              <span class="color-input-wrap"><input type="color" id="color-blue"><input type="text" id="color-blue-hex" class="hex-input" maxlength="7"></span>
+            </label>
+            <label class="color-field">
+              <span class="field-label">Green</span>
+              <span class="color-input-wrap"><input type="color" id="color-green"><input type="text" id="color-green-hex" class="hex-input" maxlength="7"></span>
+            </label>
+            <label class="color-field">
+              <span class="field-label">Yellow</span>
+              <span class="color-input-wrap"><input type="color" id="color-yellow"><input type="text" id="color-yellow-hex" class="hex-input" maxlength="7"></span>
+            </label>
+          </div>
+          <button class="text-btn" id="color-reset-btn" type="button">Reset to 4Refuel defaults</button>
+        </div>
+      </section>
+
+      <!-- ---------------- FORMS TAB ---------------- -->
+      <section class="admin-panel" id="tab-forms" role="tabpanel" hidden>
+        <div class="field-group">
+          <div class="section-heading-row">
+            <h2>Forms</h2>
+            <button class="primary-btn small" type="button" id="add-form-btn">+ Add form</button>
+          </div>
+          <p class="field-help">Categories are created automatically from whatever you type into "Type of Form" — there's no separate place to manage them. Drag rows using the handle to reorder.</p>
+          <div id="forms-list" class="forms-list"></div>
+        </div>
+      </section>
+
+      <!-- ---------------- PUBLISH TAB ---------------- -->
+      <section class="admin-panel" id="tab-publish" role="tabpanel" hidden>
+        <div class="field-group">
+          <h2>Publish changes</h2>
+          <p class="field-help">Clicking <strong>Publish to GitHub</strong> commits your changes directly to the <code id="publish-branch-name">main</code> branch of your repo. GitHub Pages picks up the new commit and republishes automatically — usually within a minute, no separate deploy step.</p>
+          <ul class="publish-file-list" id="publish-file-list"></ul>
+          <button class="primary-btn" type="button" id="publish-btn-2">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5"></path><path d="M5 12l7-7 7 7"></path></svg>
+            Publish to GitHub
+          </button>
+          <div class="publish-log" id="publish-log"></div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ============================= LIVE PREVIEW ============================= -->
+    <div class="preview-panel">
+      <div class="preview-toolbar">
+        <span class="preview-label">Live preview (unpublished)</span>
+        <div class="preview-size-toggle" role="group" aria-label="Preview size">
+          <button class="preview-size-btn is-active" type="button" data-size="mobile" aria-pressed="true">Mobile</button>
+          <button class="preview-size-btn" type="button" data-size="desktop" aria-pressed="false">Desktop</button>
+        </div>
+      </div>
+      <div class="preview-frame-wrap" id="preview-frame-wrap">
+        <iframe id="preview-frame" src="index.html" title="Live preview of BTU Supervisor Safety Hub"></iframe>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Row template for the forms list -->
+<template id="form-row-template">
+  <div class="form-row" draggable="true">
+    <span class="form-row-handle" aria-hidden="true" title="Drag to reorder">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><circle cx="8" cy="6" r="1.6"></circle><circle cx="16" cy="6" r="1.6"></circle><circle cx="8" cy="12" r="1.6"></circle><circle cx="16" cy="12" r="1.6"></circle><circle cx="8" cy="18" r="1.6"></circle><circle cx="16" cy="18" r="1.6"></circle></svg>
+    </span>
+    <div class="form-row-fields">
+      <label class="field">
+        <span class="field-label">Title</span>
+        <input type="text" class="f-title" maxlength="120">
+      </label>
+      <label class="field">
+        <span class="field-label">Type of Form (category)</span>
+        <input type="text" class="f-type" list="category-suggestions" maxlength="60">
+      </label>
+      <label class="field">
+        <span class="field-label">Frequency</span>
+        <input type="text" class="f-frequency" maxlength="60">
+      </label>
+      <label class="field field-wide">
+        <span class="field-label">Link (Microsoft Forms URL)</span>
+        <input type="url" class="f-link" maxlength="500">
+      </label>
+    </div>
+    <button class="remove-row-btn" type="button" aria-label="Remove this form">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    </button>
+  </div>
+</template>
+
+<datalist id="category-suggestions"></datalist>
+
+<script src="admin.js"></script>
+</body>
+</html>

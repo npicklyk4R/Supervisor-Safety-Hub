@@ -13,7 +13,7 @@
      version until the cache naturally expires.
    ===================================================================== */
 
-const CACHE_VERSION = 'v1';
+const CACHE_VERSION = 'v4';
 const CACHE_NAME = 'btu-safety-hub-' + CACHE_VERSION;
 
 // The "app shell" — static files needed for the app to load and run offline.
@@ -23,6 +23,8 @@ const APP_SHELL = [
   './styles.css',
   './app.js',
   './manifest.json',
+  './branding.json',
+  './logo.png',
   './icon-192.png',
   './icon-512.png',
   './icon-maskable-192.png',
@@ -62,9 +64,10 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // config.json: network-first, falling back to cache when offline, so
-  // supervisors always see the latest forms when they have a connection.
-  if (req.url.includes('config.json')) {
+  // config.json / branding.json: network-first, falling back to cache when
+  // offline, so supervisors always see the latest forms and branding when
+  // they have a connection.
+  if (req.url.includes('config.json') || req.url.includes('branding.json')) {
     event.respondWith(networkFirst(req));
     return;
   }

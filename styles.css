@@ -241,23 +241,29 @@ svg { display: block; flex-shrink: 0; }
   min-width: 0;
 }
 
-/* Fuel-drop brand mark: a droplet silhouette carrying the primary gradient.
-   This is the app's signature element — the one motif tying "4Refuel"
-   (a fuel delivery company) to the safety/compliance subject matter. */
+/* Company logo mark: displayed at 40x40 in the header from /logo.png.
+   REQUIRED SOURCE FILE SPEC (see README.md section 6 for full detail):
+     - 512x512px, square
+     - PNG with a transparent background
+     - Logo content centered within roughly the middle 80% of the canvas
+       (a little padding keeps it from feeling cramped once scaled down)
+   Replace /logo.png with your own file at that spec — no code changes
+   needed, the header picks it up automatically. */
 .brand-mark {
   flex-shrink: 0;
   width: 40px;
   height: 40px;
+  border-radius: 10px;
+  background: var(--surface-sunken);
   display: grid;
   place-items: center;
+  overflow: hidden;
 }
-.brand-mark-drop {
-  width: 32px;
-  height: 40px;
-  background: var(--gradient-primary);
-  clip-path: path('M16 0 C16 0 30 20 30 29 C30 35.6 23.7 40 16 40 C8.3 40 2 35.6 2 29 C2 20 16 0 16 0 Z');
+.brand-mark-image {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
   display: block;
-  box-shadow: 0 3px 10px -3px rgba(69, 126, 192, 0.5);
 }
 
 .brand-text { min-width: 0; }

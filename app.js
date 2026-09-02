@@ -40,6 +40,7 @@
 
   /* ---- Config ---- */
   const CONFIG_URL = 'config.json';
+  const BRANDING_URL = 'branding.json';
   const STORAGE_KEYS = {
     favorites: 'btu-hub:favorites',
     recent: 'btu-hub:recent',
@@ -85,6 +86,9 @@
     announcer: document.getElementById('a11y-announcer'),
     cardTemplate: document.getElementById('form-card-template'),
     categoryTemplate: document.getElementById('category-template'),
+    brandEyebrow: document.getElementById('brand-eyebrow'),
+    brandTitle: document.getElementById('brand-title'),
+    brandTagline: document.getElementById('brand-tagline'),
   };
 
   /* =====================================================================
@@ -97,6 +101,16 @@
     initTheme();
     bindGlobalEvents();
     registerServiceWorker();
+
+    // Branding is optional and non-fatal: if branding.json is missing or
+    // invalid, the app silently keeps the default look defined in
+    // index.html/styles.css.
+    try {
+      const brandRes = await fetch(BRANDING_URL, { cache: 'no-store' });
+      if (brandRes.ok) applyBranding(await brandRes.json());
+    } catch (err) {
+      console.warn('branding.json not loaded, using defaults', err);
+    }
 
     try {
       const res = await fetch(CONFIG_URL, { cache: 'no-store' });
@@ -111,6 +125,34 @@
     }
 
     render();
+  }
+
+  /* ---- Branding: applies colors/text from branding.json at runtime.
+     Also called directly by admin.html's live preview iframe. ---- */
+  function applyBranding(brand) {
+    if (!brand || typeof brand !== 'object') return;
+
+    if (brand.colors) {
+      const root = document.documentElement.style;
+      const map = {
+        purple: '--color-purple',
+        blue: '--color-blue',
+        green: '--color-green',
+        yellow: '--color-yellow',
+        black: '--color-black',
+        white: '--color-white',
+      };
+      Object.keys(map).forEach((key) => {
+        if (brand.colors[key]) root.setProperty(map[key], brand.colors[key]);
+      });
+    }
+
+    if (brand.appTitle) {
+      el.brandTitle.textContent = brand.appTitle;
+      document.title = brand.appTitle.includes('4Refuel') ? brand.appTitle : brand.appTitle + ' · 4Refuel BTU';
+    }
+    if (brand.eyebrow) el.brandEyebrow.textContent = brand.eyebrow;
+    if (brand.tagline) el.brandTagline.textContent = brand.tagline;
   }
 
   /* =====================================================================
@@ -449,5 +491,25 @@
   function iconDefault() {
     return '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>';
   }
+
+  /* =====================================================================
+     PREVIEW BRIDGE (used only by admin.html's live-preview iframe)
+     Lets the Site Editor push draft branding/forms/logo into a running
+     instance of this app without touching any real files on GitHub.
+     Safe to ignore entirely for normal deployed use — nothing calls this
+     unless a page explicitly reaches into the iframe and invokes it.
+     ===================================================================== */
+  window.BTUHubPreview = {
+    setBranding: applyBranding,
+    setForms: function (forms) {
+      if (!Array.isArray(forms)) return;
+      ALL_FORMS = forms;
+      render();
+    },
+    setLogo: function (dataUrl) {
+      const img = document.querySelector('.brand-mark-image');
+      if (img && dataUrl) img.src = dataUrl;
+    },
+  };
 
 })();

@@ -1,10 +1,8 @@
 {
-  "_comment": "Edit this directly, or use admin.html (the Site Editor) to change it visually and publish straight to GitHub. Colors map to the CSS custom properties in styles.css. appTitle/eyebrow/tagline update the header text and browser tab title. The logo itself is NOT set here — it's just the logo.png file in this same folder; replace that file directly (via admin.html or by hand) to change it.",
-
-  "appTitle": "Supervisor Safety Hub",
-  "eyebrow": "4Refuel · BTU",
+  "_comment": "Edit this directly, or use admin.html (the Site Editor) to change it visually.",
+  "appTitle": "Leadership Safety Hub",
+  "eyebrow": "4Refuel · EHS",
   "tagline": "Delivering reliable and sustainable solutions.",
-
   "colors": {
     "purple": "#674DA0",
     "blue": "#457EC0",
